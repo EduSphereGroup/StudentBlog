@@ -12,8 +12,10 @@
   "author": "EduSphere",
   "license": "ISC",
   "dependencies": {
+    "@types/pg": "8.11.10",
     "dotenv": "16.4.7",
     "express": "4.21.2",
+    "pg": "8.13.1",
     "uuid": "11.0.3",
     "zod": "3.23.8"
   },

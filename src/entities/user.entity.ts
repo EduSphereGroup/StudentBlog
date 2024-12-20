@@ -1,7 +1,7 @@
 import { Profile } from "./profile.entity";
 
 export class User {
-  id: string;
+  id?: string;
   name: string;
   profileId: Profile;
   username: string;
