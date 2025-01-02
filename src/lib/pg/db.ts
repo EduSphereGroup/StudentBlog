@@ -2,11 +2,11 @@ import { Pool, PoolClient } from "pg";
 import { env } from "@/env";
 
 const CONFIG = {
-  user: env.DATABASE_USER,
-  host: env.DATABASE_HOST,
-  database: env.DATABASE_NAME,
-  password: env.DATABASE_PASSWORD,
-  port: env.DATABASE_PORT,
+  user: env.POSTGRES_USER,
+  host: env.POSTGRES_HOST,
+  database: env.POSTGRES_DB,
+  password: env.POSTGRES_PASSWORD,
+  port: env.POSTGRES_PORT || 5432,
 };
 
 class Database {
@@ -21,10 +21,14 @@ class Database {
   private async connect() {
     try {
       this.client = await this.pool.connect();
+      console.log("Database connected successfully!");
     } catch (error) {
-      console.error(`Error connecting to database: ${error}`);
-
-      throw new Error(`Error connecting to database: ${error}`);
+      if (error instanceof AggregateError) {
+        console.error("Multiple errors occurred:", error.errors);
+      } else {
+        console.error("Error connecting to database:", error);
+      }
+      throw new Error("Could not connect to the database");
     }
   }
 
