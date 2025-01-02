@@ -12,9 +12,16 @@ export class PostRepository {
     file,
   }: Post): Promise<Post | undefined> {
     const result = await database.clientInstance?.query<Post>(
-      `INSER INTO "post" (id, title, subTitle, content, createdOn, userId, file) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [id, title, subTitle, content, createdOn, userId, file],
+      `INSERT INTO posts (title, sub_title, content, user_id, file) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [title, subTitle, content, userId, file],
     );
     return result?.rows[0];
+  }
+
+  async get(): Promise<Post[]> {
+    const result =
+      await database.clientInstance?.query<Post>(`SELECT * FROM posts`);
+
+    return result?.rows ?? [];
   }
 }

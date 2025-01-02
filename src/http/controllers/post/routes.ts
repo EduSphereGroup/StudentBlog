@@ -1,11 +1,10 @@
 import { Router } from "express";
 import { create } from "./create";
+import { get } from "./get";
 
 const postRoutes = Router();
 
-postRoutes.get("/", (req, res) => {
-  res.send("Lista de posts");
-});
+postRoutes.get("/", get);
 
 postRoutes.post("/", create);
 

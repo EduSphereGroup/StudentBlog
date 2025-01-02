@@ -5,33 +5,30 @@ import { z } from "zod";
 
 export async function create(req: Request, res: Response): Promise<void> {
   const registerBodySchema = z.object({
-    id: z.coerce.number(),
     title: z.string(),
     subTitle: z.string(),
     content: z.string(),
-    createdOn: z.coerce.date(),
     userId: z.coerce.number(),
     file: z.any(),
   });
 
   try {
-    const { id, title, subTitle, content, createdOn, userId, file } =
-      registerBodySchema.parse(req.body);
+    const { title, subTitle, content, userId, file } = registerBodySchema.parse(
+      req.body,
+    );
 
     const postRepository = new PostRepository();
     const createPostUseCase = new CreatePostUseCase(postRepository);
 
-    await createPostUseCase.handler({
-      id,
+    const post = await createPostUseCase.handler({
       title,
       subTitle,
       content,
-      createdOn,
       userId,
       file,
     });
 
-    res.status(201).send();
+    res.status(201).send(post);
   } catch (error) {
     console.error(error);
 

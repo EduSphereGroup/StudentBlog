@@ -1,9 +1,9 @@
 export class Post {
-  id: number;
+  id?: number;
   title: string;
   subTitle: string;
   content: string;
-  createdOn: Date;
+  createdOn?: Date;
   userId: number;
   file: any;
 
