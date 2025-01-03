@@ -40,4 +40,34 @@ export class PostRepository {
       throw new Error("Erro ao buscar o post por ID");
     }
   }
+
+  async updatePost(
+    id: string,
+    updatedData: Partial<Post>,
+  ): Promise<Post | void> {
+    try {
+      const post = await this.findById(id);
+      if (!post) {
+        throw new Error("Post not found");
+      }
+
+      const { title, subTitle, content, file } = updatedData;
+
+      const result = await database.clientInstance?.query<Post>(
+        `UPDATE posts SET title = COALESCE($1, title), sub_title = COALESCE($2, sub_title), content = COALESCE($3, content), file = COALESCE($4, file) WHERE id = $5 RETURNING *`,
+        [
+          title ?? post.title,
+          subTitle ?? post.subTitle,
+          content ?? post.content,
+          file ?? post.file,
+          id,
+        ],
+      );
+
+      return result?.rows[0];
+    } catch (error) {
+      console.error("Error editing post:", error);
+      throw new Error("Error editing post");
+    }
+  }
 }

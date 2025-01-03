@@ -1,29 +1,26 @@
+import { Post } from "@/entities/post.entity";
 import { PostRepository } from "@/repositories/post.repository";
-import { FindPostByIdUseCase } from "@/use-cases/find-post-by-id";
+import { UpdatePostUseCase } from "@/use-cases/update-post";
 import { Request, Response } from "express";
 import { z } from "zod";
 
-export async function findById(req: Request, res: Response): Promise<void> {
-  const idParamSchema = z.object({
+export async function updatePost(req: Request, res: Response): Promise<void> {
+  const registerUpdateSchema = z.object({
     id: z.string(),
+    post: z.instanceof(Post).optional(),
   });
 
   try {
-    const { id } = idParamSchema.parse(req.params);
+    const { id, post } = registerUpdateSchema.parse(req.body);
 
     const postRepository = new PostRepository();
-    const findPostByIdUseCase = new FindPostByIdUseCase(postRepository);
+    const updatePostUseCase = new UpdatePostUseCase(postRepository);
 
-    const foundPost = await findPostByIdUseCase.handler(id);
+    const updatedPost = updatePostUseCase;
 
-    if (!foundPost) {
-      res.status(404).json({ message: "Post not found" });
-      return;
-    }
-
-    res.status(200).json(foundPost);
+    res.send(200).json(updatePost);
   } catch (error) {
-    console.error("Error in findById:", error);
+    console.error("Error in updating post:", error);
 
     if (error instanceof z.ZodError) {
       res.status(400).json({
