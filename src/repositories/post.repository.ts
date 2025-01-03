@@ -3,11 +3,9 @@ import { database } from "@/lib/pg/db";
 
 export class PostRepository {
   async create({
-    id,
     title,
     subTitle,
     content,
-    createdOn,
     userId,
     file,
   }: Post): Promise<Post | undefined> {
@@ -23,5 +21,23 @@ export class PostRepository {
       await database.clientInstance?.query<Post>(`SELECT * FROM posts`);
 
     return result?.rows ?? [];
+  }
+
+  async findById(id: string): Promise<Post | null> {
+    try {
+      const result = await database.clientInstance?.query<Post>(
+        `SELECT * FROM posts WHERE id = $1 LIMIT 1`,
+        [id],
+      );
+
+      if (result && result.rows.length > 0) {
+        return result.rows[0];
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Erro ao buscar o post por ID:", error);
+      throw new Error("Erro ao buscar o post por ID");
+    }
   }
 }

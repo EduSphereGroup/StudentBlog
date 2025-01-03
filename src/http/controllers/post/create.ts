@@ -1,5 +1,4 @@
-import { PostRepository } from "@/repositories/post.repository";
-import { CreatePostUseCase } from "@/use-cases/create-post";
+import { makeCreatePostUseCase } from "@/use-cases/factory/make-create-post-use-case";
 import { Request, Response } from "express";
 import { z } from "zod";
 
@@ -17,8 +16,7 @@ export async function create(req: Request, res: Response): Promise<void> {
       req.body,
     );
 
-    const postRepository = new PostRepository();
-    const createPostUseCase = new CreatePostUseCase(postRepository);
+    const createPostUseCase = makeCreatePostUseCase();
 
     const post = await createPostUseCase.handler({
       title,
