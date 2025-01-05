@@ -1,0 +1,82 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ${{ secrets.DB_USER }} -d ${{ secrets.DB_NAME }}"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./src
+      
+    - name: Set up .env
+      run: echo "DATABASE_URL=postgres://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@localhost:5432/${{ secrets.DB_NAME }}" > .env
+      working-directory: ./src
+
+    - name: Run database migrations
+      run: psql -h localhost -d ${{ secrets.DB_NAME }} -U ${{ secrets.DB_USER }} -a -f ./src/migrations/001_create_posts_table.sql
+      env:
+        PGPASSWORD: ${{ secrets.DB_PASSWORD }}
+
+    - name: Build the project
+      run: npm run build
+      working-directory: ./src
+
+    - name: Run tests
+      run: npm test
+      working-directory: ./src
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./src
+
+    - name: Build the project
+      run: npm run build
+      working-directory: ./src
+
+    - name: Deploy to server
+      run: |
+        # Add your deployment script here
+        echo "Deployment step"
