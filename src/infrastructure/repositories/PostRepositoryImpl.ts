@@ -1,9 +1,10 @@
 import PostRepository from '../../domain/repositories/PostRepository';
 import Post from '../database/models/Post';
+import { Op } from 'sequelize';
 
 export default class PostRepositoryImpl implements PostRepository {
   async add(post: Partial<Post>): Promise<Post> {
-    return await Post.create(post as Post);
+    return await Post.create(post);
   }
 
   async findById(id: number): Promise<Post | null> {

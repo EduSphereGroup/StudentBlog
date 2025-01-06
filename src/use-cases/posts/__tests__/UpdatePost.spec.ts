@@ -10,7 +10,9 @@ describe('UpdatePost Use Case', () => {
   it('should update an existing post', async () => {
     const updatedPostData = { title: 'Updated Title', content: 'Updated Content' };
     const updatedPost = await updatePost(1, updatedPostData);
-    
+
+    if (!updatedPost) throw new Error("Post not found");
+
     expect(updatedPost.title).toBe(updatedPostData.title);
     expect(postRepository.update).toHaveBeenCalledTimes(1);
   });

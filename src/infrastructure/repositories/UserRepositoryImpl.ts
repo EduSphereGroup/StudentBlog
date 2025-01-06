@@ -3,7 +3,7 @@ import User from '../database/models/User';
 
 export default class UserRepositoryImpl implements UserRepository {
   async add(user: Partial<User>): Promise<User> {
-    return await User.create(user as User);
+    return await User.create(user);
   }
 
   async findById(id: number): Promise<User | null> {
