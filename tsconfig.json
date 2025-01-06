@@ -1,14 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types"]
-  },
-  "include": ["./**/*.ts"],
-  "exclude": ["node_modules", "dist"]
-}
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "./dist"
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
+  }

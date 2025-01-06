@@ -7,11 +7,14 @@ WORKDIR /usr/src/app
 # Copie o package.json e package-lock.json
 COPY package*.json ./
 
-# Instale as dependências de produção
-RUN npm install --only=production
+# Instale as dependências
+RUN npm install
 
 # Copie o restante do código da aplicação
 COPY . .
+
+# Instale as dependências de desenvolvimento
+RUN npm install typescript ts-node @types/node @types/express @types/bcrypt @types/jwt-simple -D
 
 # Compile o código TypeScript
 RUN npm run build
@@ -19,5 +22,5 @@ RUN npm run build
 # Exponha a porta da aplicação
 EXPOSE 3000
 
-# Comando para iniciar a aplicação no ambiente de produção
-CMD ["node", "dist/server.js"]
+# Comando para iniciar a aplicação no ambiente de desenvolvimento
+CMD ["npm", "run", "dev"]
