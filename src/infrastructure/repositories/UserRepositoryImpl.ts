@@ -2,8 +2,8 @@ import UserRepository from '../../domain/repositories/UserRepository';
 import User from '../database/models/User';
 
 export default class UserRepositoryImpl implements UserRepository {
-  async add(user: User): Promise<User> {
-    return await User.create(user);
+  async add(user: Partial<User>): Promise<User> {
+    return await User.create(user as User);
   }
 
   async findById(id: number): Promise<User | null> {
@@ -20,7 +20,7 @@ export default class UserRepositoryImpl implements UserRepository {
 
   async update(id: number, user: Partial<User>): Promise<User | null> {
     await User.update(user, {
-      where: { id }
+      where: { id },
     });
     return await User.findByPk(id);
   }

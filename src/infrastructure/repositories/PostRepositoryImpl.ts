@@ -1,10 +1,9 @@
-import { Op } from 'sequelize';
 import PostRepository from '../../domain/repositories/PostRepository';
 import Post from '../database/models/Post';
 
 export default class PostRepositoryImpl implements PostRepository {
-  async add(post: Post): Promise<Post> {
-    return await Post.create(post);
+  async add(post: Partial<Post>): Promise<Post> {
+    return await Post.create(post as Post);
   }
 
   async findById(id: number): Promise<Post | null> {
@@ -17,7 +16,7 @@ export default class PostRepositoryImpl implements PostRepository {
 
   async update(id: number, post: Partial<Post>): Promise<Post | null> {
     await Post.update(post, {
-      where: { id }
+      where: { id },
     });
     return await Post.findByPk(id);
   }
@@ -30,9 +29,9 @@ export default class PostRepositoryImpl implements PostRepository {
     return await Post.findAll({
       where: {
         title: {
-          [Op.like]: `%${keyword}%`
-        }
-      }
+          [Op.like]: `%${keyword}%`,
+        },
+      },
     });
   }
 }

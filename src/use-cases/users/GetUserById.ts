@@ -1,4 +1,5 @@
 import UserRepositoryImpl from '../../infrastructure/repositories/UserRepositoryImpl';
+import User from '../../infrastructure/database/models/User';
 
 const userRepository = new UserRepositoryImpl();
 
