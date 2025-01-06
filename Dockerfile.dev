@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Instale as dependências de desenvolvimento
-RUN npm install typescript ts-node @types/node @types/express @types/bcrypt @types/jwt-simple -D
+RUN npm install typescript ts-node ts-node-dev @types/node @types/express @types/bcrypt @types/jwt-simple -D
 
 # Compile o código TypeScript
 RUN npm run build
