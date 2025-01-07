@@ -1,7 +1,7 @@
 import Post from '../../infrastructure/database/models/Post';
 
 export default interface PostRepository {
-  add(post: Post): Promise<Post>;
+  add(post: Partial<Post>): Promise<Post>;
   findById(id: number): Promise<Post | null>;
   findAll(): Promise<Post[]>;
   update(id: number, post: Partial<Post>): Promise<Post | null>;

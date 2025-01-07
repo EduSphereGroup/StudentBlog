@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 # Copie o package.json e package-lock.json
 COPY package*.json ./
 
-# Instale as dependências de produção
-RUN npm install --only=production
+# Instale todas as dependências
+RUN npm install
 
 # Copie o restante do código da aplicação
 COPY . .

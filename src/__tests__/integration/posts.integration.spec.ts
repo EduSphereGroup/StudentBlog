@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../../infrastructure/express/App';
+import app from '../../express/App';
 import sequelize from '../../infrastructure/database/config';
 
 beforeAll(async () => {
@@ -15,7 +15,7 @@ describe('Posts API Integration Tests', () => {
     const response = await request(app)
       .post('/posts')
       .send({ title: 'Test Title', content: 'Test Content', author: 'Test Author' });
-    
+
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('id');
     expect(response.body.title).toBe('Test Title');

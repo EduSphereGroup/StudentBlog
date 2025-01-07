@@ -7,17 +7,24 @@ WORKDIR /usr/src/app
 # Copie o package.json e package-lock.json
 COPY package*.json ./
 
-# Instale as dependências
+# Instale todas as dependências (incluindo as de desenvolvimento)
 RUN npm install
 
 # Copie o restante do código da aplicação
 COPY . .
 
-# Instale as dependências de desenvolvimento
-RUN npm install typescript ts-node ts-node-dev @types/node @types/express @types/bcrypt @types/jwt-simple -D
-
 # Compile o código TypeScript
+RUN npm install typescript ts-node ts-node-dev @types/node @types/express @types/bcrypt @types/jwt-simple -D
 RUN npm run build
+
+# Verifique os arquivos compilados
+RUN echo "Arquivos compilados:" && ls -l dist
+
+# Verifique se o diretório de migrações foi criado
+RUN echo "Migrações compiladas:" && ls -l dist/src/infrastructure/database/migrations || true
+
+# Mova as migrações compiladas para o diretório de migrações do dist
+RUN mkdir -p dist/migrations && mv dist/src/infrastructure/database/migrations/* dist/migrations/ || true
 
 # Exponha a porta da aplicação
 EXPOSE 3000

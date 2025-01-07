@@ -126,13 +126,14 @@ StudentBlog/<br>
 │   ├── __tests__/integration/<br>
 │   │   ├── posts.integration.spec.ts<br>
 │   │   └── users.integration.spec.ts<br>
+│   ├── server.ts<br>
 ├── .env<br>
 ├── .eslintrc.json<br>
+├── .gitignore<br>
 ├── docker-compose.yml<br>
 ├── Dockerfile<br>
 ├── Dockerfile.dev<br>
 ├── jest.config.js<br>
 ├── package.json<br>
 ├── README.md<br>
-├── tsconfig.json<br>
-└── server.ts<br>
+└── tsconfig.json<br>
