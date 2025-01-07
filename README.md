@@ -67,6 +67,10 @@ A aplicação segue os princípios da Clean Architecture, dividida em várias ca
 Estrutura de diretórios:
 
 StudentBlog/<br>
+├── .githut/workflows/<br>
+│   ├── ci-cd.yml/<br>
+├── config/<br>
+│   ├── config.js/<br>
 ├── src/<br>
 │   ├── domain/<br>
 │   │   ├── entities/<br>
@@ -82,12 +86,12 @@ StudentBlog/<br>
 │   │   │   │   ├── DeletePost.spec.ts<br>
 │   │   │   │   ├── ListPosts.spec.ts<br>
 │   │   │   │   ├── UpdatePost.spec.ts<br>
-│   │   │   └── CreatePost.ts<br>
-│   │   │   └── DeletePost.ts<br>
-│   │   │   └── GetPostById.ts<br>
-│   │   │   └── ListPosts.ts<br>
-│   │   │   └── SearchPosts.ts<br>
-│   │   │   └── UpdatePost.ts<br>
+│   │   │   ├── CreatePost.ts<br>
+│   │   │   ├── DeletePost.ts<br>
+│   │   │   ├── GetPostById.ts<br>
+│   │   │   ├── ListPosts.ts<br>
+│   │   │   ├── SearchPosts.ts<br>
+│   │   │   ├── UpdatePost.ts<br>
 │   │   └── users/<br>
 │   │       ├── __tests__/<br>
 │   │       │   ├── CreateUser.spec.ts<br>
@@ -105,18 +109,15 @@ StudentBlog/<br>
 │   │   │   ├── config.ts<br>
 │   │   │   ├── migrations/<br>
 │   │   │   │   ├── createPostTable.ts<br>
-│   │   │   │   └── createUserTable.ts<br>
-│   │   │   └── models/<br>
-│   │   │       ├── Post.ts<br>
-│   │   │       └── User.ts<br>
-│   │   ├── express/<br>
-│   │   │   ├── App.ts<br>
-│   │   │   └── routes/<br>
-│   │   │       ├── Posts.ts<br>
-│   │   │       └── Users.ts<br>
-│   │   └── repositories/<br>
-│   │       ├── PostRepositoryImpl.ts<br>
-│   │       └── UserRepositoryImpl.ts<br>
+│   │   │   │   ├── createUserTable.ts<br>
+│   │   │   ├── models/<br>
+│   │   │   │   ├── Post.ts<br>
+│   │   │   │   └── User.ts<br>
+│   ├── express/<br>
+│   │   ├── App.ts<br>
+│   │   └── routes/<br>
+│   │       ├── Posts.ts<br>
+│   │       └── Users.ts<br>
 │   ├── interfaces/<br>
 │   │   ├── controllers/<br>
 │   │   │   ├── PostController.ts<br>
@@ -125,7 +126,7 @@ StudentBlog/<br>
 │   │   └── views/<br>
 │   ├── __tests__/integration/<br>
 │   │   ├── posts.integration.spec.ts<br>
-│   │   └── users.integration.spec.ts<br>
+│   │   ├── users.integration.spec.ts<br>
 │   ├── server.ts<br>
 ├── .env<br>
 ├── .eslintrc.json<br>
