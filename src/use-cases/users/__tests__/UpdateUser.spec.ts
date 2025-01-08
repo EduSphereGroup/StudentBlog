@@ -14,7 +14,12 @@ describe('UpdateUser Use Case', () => {
     const updatedUserData = { username: 'updateduser', email: 'updateduser@example.com', password: 'updatedpassword' };
     const result = await updateUser(1, updatedUserData);
 
+    // Adicione erro de tratamento caso result seja null
+    if (!result) {
+      throw new Error("Failed to update user: result is null");
+    }
+
     expect(result).toEqual(updatedUser);
     expect(userRepository.update).toHaveBeenCalledTimes(1);
-  });
+  });
 });

@@ -1,6 +1,5 @@
 import updatePost from '../UpdatePost';
 import PostRepositoryImpl from '../../../infrastructure/repositories/PostRepositoryImpl';
-import Post from '../../../infrastructure/database/models/Post';
 
 jest.mock('../../../infrastructure/repositories/PostRepositoryImpl');
 
@@ -14,8 +13,13 @@ describe('UpdatePost Use Case', () => {
     const updatedPostData = { title: 'Updated Title', content: 'Updated Content' };
     const updatedPost = await updatePost(1, updatedPostData);
 
+    // Adicione erro de tratamento caso updatedPost seja null
+    if (!updatedPost) {
+      throw new Error("Failed to update post: updatedPost is null");
+    }
+
     expect(updatedPost.title).toBe(updatedPostData.title);
     expect(updatedPost.content).toBe(updatedPostData.content);
     expect(postRepository.update).toHaveBeenCalledTimes(1);
-  });
+  });
 });

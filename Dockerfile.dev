@@ -4,27 +4,35 @@ FROM node:14
 # Defina o diretório de trabalho
 WORKDIR /usr/src/app
 
-# Copie o package.json e package-lock.json
+# Copie o arquivo package.json e package-lock.json
 COPY package*.json ./
 
-# Instale todas as dependências (incluindo as de desenvolvimento)
+# Instale todas as dependências
 RUN npm install
 
-# Copie o restante do código da aplicação
+# Copie o restante dos arquivos da aplicação
 COPY . .
 
+# Pegue as dependências de desenvolvimento adicionais
+RUN npm install typescript ts-node ts-node-dev @types/node @types/express @types/bcrypt @types/jwt-simple sequelize-cli -D
+
 # Compile o código TypeScript
-RUN npm install typescript ts-node ts-node-dev @types/node @types/express @types/bcrypt @types/jwt-simple -D
 RUN npm run build
 
 # Verifique os arquivos compilados
-RUN echo "Arquivos compilados:" && ls -l dist
+#RUN echo "Arquivos compilados em dist:" && ls -l dist
 
 # Verifique se o diretório de migrações foi criado
-RUN echo "Migrações compiladas:" && ls -l dist/src/infrastructure/database/migrations || true
+#RUN if [ -d dist/infrastructure/database/migrations ]; then echo "Migrações compiladas em dist/infrastructure/database/migrations:" && ls -l dist/infrastructure/database/migrations; else echo "Diretório de migrações não encontrado"; fi
 
-# Mova as migrações compiladas para o diretório de migrações do dist
-RUN mkdir -p dist/migrations && mv dist/src/infrastructure/database/migrations/* dist/migrations/ || true
+# Mova as migrações compiladas para o diretório dist/migrations
+#RUN if [ -d dist/infrastructure/database/migrations ]; then mkdir -p dist/migrations && mv dist/infrastructure/database/migrations/* dist/migrations/; else mkdir -p dist/migrations; fi
+
+# Verifique as migrações movidas para dist/migrations
+#RUN echo "Migrações movidas para dist/migrations:" && ls -l dist/migrations || true
+
+# Certifique-se de que o diretório dist/migrations existe
+RUN ls -l dist/infrastructure/database/migrations
 
 # Exponha a porta da aplicação
 EXPOSE 3000

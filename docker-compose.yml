@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   postgres:
     image: postgres:13
@@ -16,11 +14,12 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
       JWT_SECRET: ${JWT_SECRET}
     ports:
       - "3000:3000"
@@ -31,7 +30,10 @@ services:
       - /usr/src/app/node_modules
     command: >
       sh -c "
-      npx sequelize-cli db:migrate --migrations-path dist/migrations &&
+      npm install && 
+      npm run build && 
+      ls -lR dist/infrastructure/database/migrations && 
+      npx sequelize-cli db:migrate --migrations-path dist/infrastructure/database/migrations && 
       npm run dev
       "
 
