@@ -25,36 +25,6 @@ StudentBlog é uma plataforma que permite aos estudantes criar, editar e excluir
 - PostgreSQL
 - Dependências do Node.js listadas no `package.json`
 
-### Instalação
-
-1. Clone este repositório:
-
-    ```bash
-    git clone https://github.com/seu-usuario/studentblog.git
-    cd studentblog
-    ```
-
-2. Instale as dependências:
-
-    ```bash
-    npm install
-    ```
-
-3. Crie e configure o arquivo `.env`:
-
-    ```bash
-    POSTGRES_USER=studentblog
-    POSTGRES_PASSWORD=studentblog
-    POSTGRES_DB=studentblog
-    JWT_SECRET=sua_chave_secreta
-    ```
-
-4. Inicie os contêineres Docker:
-
-    ```bash
-    docker-compose up --build
-    ```
-
 ## Arquitetura da Aplicação
 
 A aplicação segue os princípios da Clean Architecture, dividida em várias camadas:
