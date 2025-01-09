@@ -1,5 +1,6 @@
 services:
   postgres:
+    container_name: database_blog
     image: postgres:13
     restart: always
     environment:
@@ -12,6 +13,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   app:
+    container_name: app_blog
     build:
       context: .
       dockerfile: Dockerfile
