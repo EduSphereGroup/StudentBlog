@@ -1,6 +1,7 @@
 "use client"
 
 import { usePostStore } from "@/stores/post-store"
+import { useAuthStore } from "@/stores/auth" // Importe o store de autenticação
 import dayjs from "dayjs"
 import { Edit3Icon, Trash2Icon } from "lucide-react"
 import Link from "next/link"
@@ -11,6 +12,7 @@ export default function PostsTable() {
   const fetchPosts = usePostStore((state) => state.fetchPosts)
   const deletePost = usePostStore((state) => state.deletePost)
   const posts = usePostStore((state) => state.posts)
+  const userId = useAuthStore((state) => state.userId) // Obtenha o userId do usuário logado
 
   useEffect(() => {
     fetchPosts()
@@ -75,21 +77,25 @@ export default function PostsTable() {
               </td>
               <td className="px-4 py-3">{post.usuario.nome}</td>
               <td className="flex content-center items-center gap-6 **:mt-2">
-                <Link
-                  href={`/posts/editar/${post.id}`}
-                  className="block cursor-pointer"
-                  title={`Editar post: "${post.id} - ${post.titulo}"`}
-                >
-                  <Edit3Icon size={20} />
-                </Link>
-                <button
-                  type="button"
-                  className="cursor-pointer"
-                  title={`Excluir post: "${post.id} - ${post.titulo}"`}
-                  onClick={() => handleDelete(post.id, post.titulo)}
-                >
-                  <Trash2Icon size={20} />
-                </button>
+                {Number(userId) === post.usuario.id && ( // Verifique se o userId logado é o proprietário do post
+                  <>
+                    <Link
+                      href={`/posts/editar/${post.id}`}
+                      className="block cursor-pointer"
+                      title={`Editar post: "${post.id} - ${post.titulo}"`}
+                    >
+                      <Edit3Icon size={20} />
+                    </Link>
+                    <button
+                      type="button"
+                      className="cursor-pointer"
+                      title={`Excluir post: "${post.id} - ${post.titulo}"`}
+                      onClick={() => handleDelete(post.id, post.titulo)}
+                    >
+                      <Trash2Icon size={20} />
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
